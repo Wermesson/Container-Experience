@@ -1,7 +1,5 @@
 FROM centos:centos7
 
-COPY systemctl.py /usr/bin/systemctl
-
 ENV ORACLE_HOME /usr/lib/oracle/12.2/client64
 ENV LD_LIBRARY_PATH $ORACLE_HOME/lib
 
@@ -35,10 +33,10 @@ echo "LoadModule php5_module /usr/lib64/httpd/modules/libphp5.so" > /etc/httpd/c
     rm -f /opt/oracle/*.rpm
 
 COPY /experience /var/www/html/experience
-COPY setup.sh /usr/local/bin/setup.sh 
 
-RUN /usr/local/bin/setup.sh
+RUN mv /var/www/html/experience/setup.sh /usr/local/bin/ && \
+    /usr/local/bin/setup.sh
 
 EXPOSE 8080
 
-CMD ["/usr/sbin/init"]
+ENTRYPOINT ["/usr/sbin/init"]
